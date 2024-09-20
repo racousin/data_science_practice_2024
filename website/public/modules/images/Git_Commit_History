@@ -1,0 +1,22 @@
+// Git Commit History
+digraph {
+	node [shape=rectangle style=filled]
+	C1 [label="Initial commit" fillcolor=lightblue]
+	C2 [label="Some changes" fillcolor=lightblue]
+	C3 [label="More changes" fillcolor=lightblue]
+	C3b [label="More changes" fillcolor=lightblue]
+	C4 [label="Feature init" fillcolor=lightgreen]
+	C4b [label="Feature complete" fillcolor=lightgreen]
+	C5 [label="Merged feature" fillcolor=lightblue]
+	C6 [label="Fix bug" fillcolor=lightblue]
+	C1 -> C2
+	C2 -> C3
+	C2 -> C4 [label="Feature branch"]
+	C4 -> C4b [label="Work on Feature"]
+	C3 -> C3b
+	C4b -> C5 [label="Feature branch merged"]
+	C3b -> C5
+	C5 -> C6
+	labeljust=r labelloc=b
+	fontcolor=gray fontsize=6 label="© raphaelcousin.com"
+}

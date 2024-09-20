@@ -1,0 +1,13 @@
+// Git Workflow
+digraph {
+	W [label="Working Directory
+Changes are made here" color=lightpink shape=rectangle style=filled]
+	S [label="Staging Area
+Changes ready to commit" color=lightblue shape=rectangle style=filled]
+	R [label="Repository
+Committed history" color=lightgreen shape=rectangle style=filled]
+	W -> S [label="git add"]
+	S -> R [label="git commit"]
+	labeljust=r labelloc=b
+	fontcolor=gray fontsize=6 label="© raphaelcousin.com"
+}

@@ -1,0 +1,59 @@
+/* StartLearningButton.css */
+.start-learning-button {
+  display: inline-block;
+  position: relative;
+  width: 120px;
+  height: 120px;
+  line-height: 120px;
+  text-align: center;
+  color: black;  /* Text color updated to black */
+  text-decoration: none;
+  text-transform: uppercase;
+  font-weight: bold;
+  background-color: white;  /* Background color updated to white */
+  border-radius: 50%; /* Perfectly circular */
+  overflow: hidden;
+  transition: transform 0.3s, color 0.3s;
+  outline: none;
+  border: 2px solid black; /* Added black border for contrast */
+  cursor: pointer;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; /* Modern, clean font */
+}
+
+.start-learning-button:hover, .start-learning-button:focus {
+  color: white; /* Text color changes on hover */
+  background-color: black; /* Background color changes on hover */
+  transform: scale(1.1); /* Slightly larger scale on hover */
+}
+
+.start-learning-button:active {
+  transform: scale(0.9); /* Slightly smaller scale when clicked */
+}
+
+.button-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border-radius: 50%;
+  clip-path: circle(50% at center);
+  transition: background-color 0.3s;
+}
+
+/* Realistic wave effect using lines */
+@keyframes waveEffect {
+  0%, 100% {
+    background-size: 300% 300%;
+    background-image: linear-gradient(-45deg, transparent 45%, rgba(255, 255, 255, 0.3) 50%, transparent 55%);
+  }
+  50% {
+    background-size: 300% 300%;
+    background-image: linear-gradient(-45deg, transparent 45%, rgba(255, 255, 255, 0.7) 50%, transparent 55%);
+  }
+}
+
+.start-learning-button:hover .button-overlay {
+  animation: waveEffect 4s infinite ease-in-out;
+}

@@ -1,0 +1,50 @@
+/* Base container and layout styling */
+.teaching-container {
+    padding: 20px;
+    /* Removed background color for a cleaner look */
+}
+
+.teaching-form {
+    margin-bottom: 20px;
+}
+
+/* Styling for the cards displaying modules */
+.module-card {
+    /* Removed box shadow and hover effects */
+    border: 1px solid #dee2e6; /* Light grey border for subtle definition */
+    cursor: pointer; /* Keep cursor pointer to indicate interactivity */
+}
+
+.module-title {
+    font-size: 18px;
+    color: #343a40; /* Dark grey color for text, keeping it simple */
+}
+
+.module-button {
+    margin-top: 10px;
+    width: 100%; /* Full-width buttons */
+    border-radius: 0; /* Removing border-radius for a flat design */
+    transition: background-color 0.2s, color 0.2s; /* Smooth transition for visual feedback */
+}
+
+.module-button-outline-primary {
+    border-color: #007bff;
+    color: #007bff;
+    background-color: transparent; /* Ensure background is transparent for a cleaner look */
+}
+
+.module-button-outline-primary:hover {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.module-button-outline-secondary {
+    border-color: #6c757d;
+    color: #6c757d;
+    background-color: transparent; /* Maintain transparency */
+}
+
+.module-button-outline-secondary:hover {
+    background-color: #6c757d;
+    color: #ffffff;
+}

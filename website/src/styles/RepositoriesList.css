@@ -1,0 +1,39 @@
+.custom-repository-list .repository-card {
+    background-color: #f8f9fa; /* Light gray background */
+    border: none; /* Removes border */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Adds shadow for depth */
+    padding: 20px; /* Adds padding inside the card */
+    border-radius: 8px; /* Rounded corners for the card */
+}
+
+.custom-repository-list .repository-card .card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensures spacing between elements */
+}
+
+.custom-repository-list .repository-card .card-title {
+    font-size: 20px; /* Larger font size for the title */
+    font-weight: bold; /* Bold font weight for title */
+    color: #333; /* Darker color for better readability */
+    margin-bottom: 15px; /* Space below the title */
+}
+
+.custom-repository-list .repository-card .card-text {
+    font-size: 16px; /* Suitable font size for content */
+    color: #555; /* Soft black color for texts */
+    line-height: 1.5; /* Line height for better readability */
+    margin-bottom: 20px; /* Space below the text */
+}
+
+.custom-repository-list .repository-card .card-link {
+    color: #0056b3; /* Matching link color to button */
+    text-decoration: none; /* Removes underline */
+    font-weight: bold; /* Bold font weight for link */
+    margin-right: 15px; /* Space between link and button */
+}
+
+.custom-repository-list .repository-card .btn-primary {
+    background-color: #0056b3; /* Primary button color */
+    border: none; /* Removes border of the button */
+}

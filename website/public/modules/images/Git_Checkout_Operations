@@ -1,0 +1,29 @@
+// Git Checkout Operations
+digraph {
+	node [shape=rectangle style=filled]
+	C1 [label="Initial commit
+(main)" fillcolor=lightblue]
+	C2 [label="Feature A
+(main)" fillcolor=lightblue]
+	C3 [label="Feature B
+(main)" fillcolor=lightblue]
+	C5 [label="Continue work
+(main)" fillcolor=lightblue]
+	CH [label="View Feature A
+(checkout C2)" fillcolor=orange]
+	C4 [label="Feature C
+(feature-branch)" fillcolor=lightgreen]
+	C1 -> C2 [label="Commit feature A"]
+	C2 -> C3 [label="Commit feature B"]
+	C3 -> C5 [label="git checkout main" color=blue fontcolor=blue]
+	C3 -> C4 [label="Branch out to feature-branch" color=green fontcolor=green]
+	C4 -> C5 [label="Merge feature-branch to main" color=green fontcolor=green]
+	C2 -> CH [label="git checkout <commit_hash> (C2)" color=orange fontcolor=orange style=dashed]
+	node [color=yellow fontcolor=black shape=note style=filled]
+	note1 [label="Checking out commit C2 to view or work in a detached HEAD state."]
+	CH -> note1 [color=black style=dashed]
+	note2 [label="Switching back to the main branch continues work from the latest commit."]
+	C5 -> note2 [color=black style=dashed]
+	labeljust=r labelloc=b
+	fontcolor=gray fontsize=6 label="© raphaelcousin.com"
+}

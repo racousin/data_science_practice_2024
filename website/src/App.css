@@ -1,0 +1,183 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+/* General Body Styling */
+body {
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; 
+   /* 'Roboto', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
+  color: #333;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Header and Titles Styling */
+body h1 {
+  color: #0056b3;
+  font-size: 36px;  
+  font-weight: 700; 
+  margin-bottom: 20px;
+}
+
+body h2 {
+  color: #007acc;
+  font-size: 30px;
+  font-weight: 600; 
+  margin-bottom: 18px;
+  margin-top: 30px;
+}
+
+body h3 {
+  color: #0094ff;
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 15px;
+  margin-top: 25px;
+}
+
+body h4 {
+  color: #00b4ff;
+  font-size: 20px;  /* Smaller than h3 */
+  font-weight: 500; /* Medium weight */
+  margin-bottom: 12px;
+  margin-top: 20px;
+}
+
+
+body p, body li {
+  font-size: 16px;  
+  line-height: 1.6; 
+  margin-bottom: 10px;
+}
+
+/* Button Styling */
+.button, .button-outline {
+  border: none;
+  padding: 12px 24px;
+  margin: 8px;
+  border-radius: 6px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+.button {
+  background-color: #007bff;
+  color: white;
+}
+
+.button:hover, .button-outline:hover {
+  background-color: #0056b3;
+  color: #ffffff;
+}
+
+.button-outline {
+  background-color: transparent;
+  border: 2px solid #007bff;
+  color: #007bff;
+}
+
+/* Navigation Link Styling */
+.nav-link, .nav-link.active {
+  padding: 12px 18px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.nav-link {
+  color: #007bff;
+  font-size: 16px; /* Slightly larger font size for readability */
+}
+
+.nav-link.small {
+  padding-left: 30px;
+  font-size: 14px; /* Smaller font for sub-items */
+  color: #6c757d; /* Muted color for hierarchy */
+}
+
+.nav-link:hover, .nav-link.active {
+  background-color: #e7f1ff;
+  color: #0056b3;
+}
+
+.nav-link.active {
+  font-weight: bold;
+  background-color: #007bff;
+  color: white;
+  border-left: 4px solid #0056b3;
+  margin-left: -4px;
+}
+
+/* Card Styling */
+.card {
+  border: none; /* Removing border for a cleaner look */
+  border-radius: 10px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.card:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Module Title and Navigation Buttons Styling */
+.module-title {
+  font-size: 1.75rem;
+  color: #0056b3;
+}
+
+.nav-button {
+  margin: 0 15px;
+}
+
+/* Navigation Header Styling */
+.navigation-header {
+  position: sticky;
+  background-color: #fff;
+  border-bottom: 1px solid #e7e9eb;
+  padding: 20px;
+  z-index: 1030;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+/* Sidebar Styling */
+.flex-column {
+  position: sticky;
+  top: 152px;
+  height: calc(100vh - 152px);
+  overflow-y: auto;
+}
+
+div.mytab .nav-pills .nav-item .nav-link {
+  color: #495057; /* More specific targeting */
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+  padding: 0.75rem 1rem;
+}
+
+div.mytab .nav-pills .nav-item .nav-link.active {
+  color: white;
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+div.mytab .nav-pills {
+  margin-bottom: -1px;
+}
+
+div.mytab .tab-content {
+  border: 1px solid #dee2e6;
+  border-top: none;
+  padding: 1rem;
+  background-color: white;
+}
+
+.terminal-result {
+  background-color: #2d2d2d; /* Dark background to indicate terminal output */
+  border-left: 4px solid #f39c12; /* Add a colored border to differentiate */
+  padding-left: 10px;
+}

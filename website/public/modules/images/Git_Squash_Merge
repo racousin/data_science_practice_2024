@@ -1,0 +1,20 @@
+// Git Squash Merge
+digraph {
+	rankdir=LR
+	label="Squash Merge"
+	A2 [label="A
+(Initial commit)"]
+	B2 [label="B
+(Feature commit)"]
+	C2 [label="C
+(Feature commit)"]
+	S2 [label="S
+(Squashed commit)" shape=box]
+	A2 -> B2 [label=commit]
+	B2 -> C2 [label=commit]
+	A2 -> S2 [label="squash
+(combine commits)"]
+	C2 -> S2 [label="contributes to" style=dashed]
+	labeljust=r labelloc=b
+	fontcolor=gray fontsize=6 label="© raphaelcousin.com"
+}

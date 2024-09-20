@@ -1,0 +1,14 @@
+/* OverallProgress.scss */
+.overall-progress .card-header {
+    background-color: #007bff;
+    color: white;
+}
+
+.overall-progress .progress-bar {
+    background-color: #28a745;
+}
+
+.overall-progress .card-title {
+    font-size: 1.5rem;
+    font-weight: bold;
+}

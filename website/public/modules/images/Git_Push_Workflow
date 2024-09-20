@@ -1,0 +1,26 @@
+// Git Push Workflow
+digraph {
+	subgraph cluster_local {
+		color=lightgrey label="Local Repository" style=filled
+		LM [label="Local Master" color=lightgreen shape=rectangle style=filled]
+		LC [label="Local Commits" color=lightblue shape=circle style=filled]
+		LC -> LM [label="git commit"]
+	}
+	subgraph cluster_remote {
+		color=lightyellow label="Remote Repository" style=filled
+		RM [label="Remote Master" color=gold shape=rectangle style=filled]
+	}
+	LM -> RM [label="git push" color=red fontcolor=red penwidth=2]
+	Note1 [label="Push: Uploads local commits
+to the remote repository" fontsize=10 shape=note]
+	Note2 [label="Ensures remote is up-to-date
+with your local changes" fontsize=10 shape=note]
+	Step1 [label="1. Make local commits" shape=plaintext]
+	Step2 [label="2. git push" shape=plaintext]
+	Step3 [label="3. Remote updated" shape=plaintext]
+	Step1 -> LC [style=dotted]
+	Step2 -> LM [style=dotted]
+	Step3 -> RM [style=dotted]
+	labeljust=r labelloc=b
+	fontcolor=gray fontsize=6 label="© raphaelcousin.com"
+}

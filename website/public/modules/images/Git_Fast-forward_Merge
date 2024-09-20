@@ -1,0 +1,17 @@
+// Git Fast-forward Merge
+digraph {
+	rankdir=LR
+	label="Fast-forward Merge"
+	A1 [label="A
+(Initial commit)"]
+	B1 [label="B
+(Feature commit)"]
+	C1 [label="C
+(Feature complete)"]
+	A1 -> B1 [label=commit]
+	B1 -> C1 [label=commit]
+	A1 -> C1 [label="fast-forward
+(main branch moves)" color=red style=dashed]
+	labeljust=r labelloc=b
+	fontcolor=gray fontsize=6 label="© raphaelcousin.com"
+}

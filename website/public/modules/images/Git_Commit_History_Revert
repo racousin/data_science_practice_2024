@@ -1,0 +1,14 @@
+// Git Commit History
+digraph {
+	node [shape=rectangle style=filled]
+	C1 [label="Initial commit" fillcolor=lightblue]
+	C2 [label="Add feature A" fillcolor=lightblue]
+	C3 [label="Add feature B" fillcolor=lightblue]
+	CR [label="Revert \"Add feature B\"" fillcolor=red]
+	C1 -> C2 [label="Commit feature A"]
+	C2 -> C3 [label="Commit feature B"]
+	C3 -> CR [label="Revert feature B" color=red fontcolor=red]
+	CR [label="Revert \"Add feature B\"" fillcolor=red fontcolor=white style=filled]
+	labeljust=r labelloc=b
+	fontcolor=gray fontsize=6 label="© raphaelcousin.com"
+}

@@ -1,0 +1,43 @@
+/* Resources.css */
+.resources-container {
+  padding: 20px;
+  background-color: #fff; /* White background for the entire container */
+}
+
+.resources-card {
+  border: none; /* Remove borders */
+  border-radius: 8px; /* Rounded corners */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Softer shadow */
+  transition: box-shadow 0.3s ease;
+}
+
+.resources-card:hover {
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Slightly more pronounced shadow on hover */
+}
+
+.resources-logo-image {
+  height: 120px; /* Slightly reduced height for logos */
+  object-fit: contain;
+  padding: 20px; /* Increased padding to center logos better */
+  background-color: #fff; /* Matching the card background */
+}
+
+.resources-title {
+  font-size: 18px; /* Larger font for titles */
+  font-weight: bold;
+  color: #333; /* Darker color for better readability */
+  margin-bottom: 12px; /* Space before the button */
+}
+
+.resources-button {
+  background-color: #0056b3; /* Custom color for the button */
+  border: none;
+  border-radius: 5px; /* Rounded corners for the button */
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 16px;
+}
+
+.resources-button:hover {
+  background-color: #004494; /* Darker shade on hover */
+}

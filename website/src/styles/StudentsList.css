@@ -1,0 +1,71 @@
+.students-list-container {
+    max-width: 900px;
+    margin: auto;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.students-list-container h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.students-list-container .form-control {
+    margin-bottom: 10px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    border: 1px solid #ccc;
+}
+
+.students-list-container .table {
+    background-color: #fff;
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.students-list-container th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+}
+
+.students-list-container th, 
+.students-list-container td {
+    text-align: left;
+    padding: 12px 15px;
+    border-top: 1px solid #dee2e6;
+}
+
+.students-list-container tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.students-list-container .table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0,0,0,.05);
+}
+
+.students-list-container .btn-primary {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 4px;
+    line-height: 1.5;
+    transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+}
+
+.students-list-container .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
+
+.students-list-container .alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}

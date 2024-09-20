@@ -1,0 +1,21 @@
+// Git Fetch, Merge, and Pull
+digraph {
+	subgraph cluster_local {
+		color=lightgrey label="Local Repository" style=filled
+		LM [label="Local Master" color=lightgreen shape=rectangle style=filled]
+		O [label="Origin/Master" color=lightyellow shape=rectangle style=filled]
+	}
+	R [label="Remote Repository" color=gold shape=rectangle style=filled]
+	R -> O [label="git fetch" color=blue fontcolor=blue]
+	O -> LM [label="git merge" color=green fontcolor=green]
+	R -> LM [label="git pull
+(fetch + merge)" color=red fontcolor=red style=dashed]
+	Note1 [label="fetch: Updates Origin/Master
+without changing Local Master" fontsize=10 shape=note]
+	Note2 [label="merge: Combines Origin/Master
+into Local Master" fontsize=10 shape=note]
+	Note3 [label="pull: Combines fetch and merge
+in one command" fontsize=10 shape=note]
+	labeljust=r labelloc=b
+	fontcolor=gray fontsize=6 label="© raphaelcousin.com"
+}

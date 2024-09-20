@@ -1,0 +1,22 @@
+// Git Three-way Merge
+digraph {
+	rankdir=LR
+	label="Three-way Merge"
+	A4 [label="A
+(Common ancestor)"]
+	B4 [label="B
+(Feature commit)"]
+	C4 [label="C
+(Feature commit)"]
+	D4 [label="D
+(Main branch commit)"]
+	M4 [label="M
+(Merge commit)" shape=diamond]
+	A4 -> B4 [label=commit]
+	B4 -> C4 [label=commit]
+	A4 -> D4 [label="commit on main"]
+	C4 -> M4 [label=merge]
+	D4 -> M4 [label=merge]
+	labeljust=r labelloc=b
+	fontcolor=gray fontsize=6 label="© raphaelcousin.com"
+}

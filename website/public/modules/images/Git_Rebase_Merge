@@ -1,0 +1,25 @@
+// Git Rebase Merge
+digraph {
+	rankdir=LR
+	label=Rebase
+	A3 [label="A
+(Initial commit)"]
+	B3 [label="B
+(Feature commit)"]
+	C3 [label="C
+(Feature commit)"]
+	D3 [label="D
+(Main branch commit)"]
+	B3p [label="B'
+(Rebased commit)"]
+	C3p [label="C'
+(Rebased commit)"]
+	A3 -> B3 [label=commit]
+	B3 -> C3 [label=commit]
+	A3 -> D3 [label="commit on main"]
+	D3 -> B3p [label="rebase
+(replay commits)" color=red style=dashed]
+	B3p -> C3p [label=commit]
+	labeljust=r labelloc=b
+	fontcolor=gray fontsize=6 label="© raphaelcousin.com"
+}

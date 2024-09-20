@@ -1,0 +1,18 @@
+// Git Remote Workflow
+digraph {
+	subgraph cluster_local {
+		color=lightgrey label="Local Environment" style=filled
+		W [label="Working Directory" color=lightpink shape=rectangle style=filled]
+		S [label="Staging Area" color=lightblue shape=rectangle style=filled]
+		L [label="Local Repository" color=lightgreen shape=rectangle style=filled]
+		W -> S [label="git add"]
+		S -> L [label="git commit"]
+	}
+	R [label="Remote Repository
+(e.g., GitHub)" color=gold shape=rectangle style=filled]
+	L -> R [label="git push"]
+	R -> L [label="git pull"]
+	R -> W [label="git clone" style=dashed]
+	labeljust=r labelloc=b
+	fontcolor=gray fontsize=6 label="© raphaelcousin.com"
+}
