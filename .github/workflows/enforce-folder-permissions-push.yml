@@ -1,0 +1,51 @@
+name: Enforce and Evaluate
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    environment: main
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 2
+
+    - name: Set Environment Variables
+      run: |
+        echo "AUTHOR=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
+        echo "GITHUB_REPOSITORY_NAME=$(echo ${{ github.repository }} | cut -d '/' -f2)" >> $GITHUB_ENV
+
+    - name: Setup AWS CLI
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+
+    - name: Set Script Permissions
+      run: chmod +x ./scripts/* ./tests/*/exercise*.sh ./tests/run_tests_and_update_results.sh
+
+    - name: Check and Add User to Students List
+      run: ./scripts/check-and-add-user.sh ${{ env.AUTHOR }} ${{ env.GITHUB_REPOSITORY_NAME }} ${{ secrets.AWS_ACCESS_KEY_ID }} ${{ secrets.AWS_SECRET_ACCESS_KEY }} ${{ secrets.AWS_DEFAULT_REGION }}
+
+    - name: Determine Changed Modules
+      run: |
+        CHANGED_MODULES=$(./scripts/check-changed-modules.sh ${{ env.AUTHOR }} "false")
+        echo "CHANGED_MODULES=$CHANGED_MODULES" >> $GITHUB_ENV
+        echo "Changed modules: $CHANGED_MODULES"
+
+    - name: Run Tests and Update Results
+      run: |
+        if [[ -z "${{ env.CHANGED_MODULES }}" ]]; then
+          echo "No MODULEs changed. Skipping tests."
+        else
+          echo "Running tests for changed modules: ${{ env.CHANGED_MODULES }}"
+          ./tests/run_tests_and_update_results.sh ${{ env.AUTHOR }} ${{ secrets.AWS_ACCESS_KEY_ID }} ${{ secrets.AWS_SECRET_ACCESS_KEY }} ${{ secrets.AWS_DEFAULT_REGION }} "${{ env.CHANGED_MODULES }}" ${{ env.GITHUB_REPOSITORY_NAME }}
+          ./scripts/compute_progress_percentage.sh ${{ env.AUTHOR }} ${{ env.GITHUB_REPOSITORY_NAME }} ${{ secrets.AWS_ACCESS_KEY_ID }} ${{ secrets.AWS_SECRET_ACCESS_KEY }} ${{ secrets.AWS_DEFAULT_REGION }}
+        fi
