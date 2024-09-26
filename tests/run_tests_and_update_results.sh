@@ -26,6 +26,11 @@ aws configure set default.region $AWS_DEFAULT_REGION
 
 mkdir -p $RESULTS_DIR  # Ensure results directory exists
 
+# Aggregate results and upload to S3
+python3 -m venv venv
+source venv/bin/activate
+pip install -r tests/requirements.txt
+
 echo $CHANGED_MODULES
 IFS=' ' read -r -a modules <<< "$CHANGED_MODULES"  # Split CHANGED_MODULES into an array
 for module in "${modules[@]}"; do
@@ -46,12 +51,8 @@ for module in "${modules[@]}"; do
     fi
 done
 
-# Aggregate results and upload to S3
-python3 -m venv venv
-source venv/bin/activate
-pip install -r tests/requirements.txt
 python tests/aggregate_results.py $RESULTS_DIR $FINAL_JSON $S3_BUCKET $S3_KEY $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_DEFAULT_REGION
 deactivate
 # rm -rf venv
-Cleanup local results
+# Cleanup local results
 rm -rf $RESULTS_DIR

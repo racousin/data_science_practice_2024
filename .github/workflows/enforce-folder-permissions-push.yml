@@ -16,10 +16,37 @@ jobs:
       with:
         fetch-depth: 2
 
-    - name: Set Environment Variables
+    # Log the event name and event path for debugging purposes
+    - name: Log Event Name and Path
       run: |
-        echo "AUTHOR=$(git log -1 --pretty=format:'%an')" >> $GITHUB_ENV
+        echo "Event Name: ${{ github.event_name }}"
+        echo "Event Path: $GITHUB_EVENT_PATH"
+
+    # Retrieve the PR author from the event payload and log the output
+    - name: Set Environment Variables
+      if: github.event_name == 'push'
+      run: |
+        if [ -f $GITHUB_EVENT_PATH ]; then
+          echo "GITHUB_EVENT_PATH exists. Extracting PR author."
+          PR_AUTHOR=$(jq -r .pull_request.user.login < $GITHUB_EVENT_PATH)
+          echo "Extracted PR Author: $PR_AUTHOR"
+          if [ "$PR_AUTHOR" != "null" ]; then
+            echo "AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
+            echo "Author is set to PR Author: $PR_AUTHOR"
+          else
+            # Fallback to git log if PR_AUTHOR is null
+            AUTHOR=$(git log -2 --pretty=format:'%an' | tail -n 1)
+            echo "AUTHOR=$AUTHOR" >> $GITHUB_ENV
+            echo "Author is set to previous commit author: $AUTHOR"
+          fi
+        else
+          # Fallback to git log if no GITHUB_EVENT_PATH
+          AUTHOR=$(git log -2 --pretty=format:'%an' | tail -n 1)
+          echo "AUTHOR=$AUTHOR" >> $GITHUB_ENV
+          echo "GITHUB_EVENT_PATH not found. Author is set to previous commit author: $AUTHOR"
+        fi
         echo "GITHUB_REPOSITORY_NAME=$(echo ${{ github.repository }} | cut -d '/' -f2)" >> $GITHUB_ENV
+        echo "Repository Name: ${{ env.GITHUB_REPOSITORY_NAME }}"
 
     - name: Setup AWS CLI
       uses: aws-actions/configure-aws-credentials@v1
