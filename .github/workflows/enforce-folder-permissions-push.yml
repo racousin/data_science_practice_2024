@@ -24,27 +24,28 @@ jobs:
 
     # Retrieve the PR author from the event payload and log the output
     - name: Set Environment Variables
-      if: github.event_name == 'push'
       run: |
-        if [ -f $GITHUB_EVENT_PATH ]; then
-          echo "GITHUB_EVENT_PATH exists. Extracting PR author."
-          PR_AUTHOR=$(jq -r .pull_request.user.login < $GITHUB_EVENT_PATH)
-          echo "Extracted PR Author: $PR_AUTHOR"
-          if [ "$PR_AUTHOR" != "null" ]; then
-            echo "AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
-            echo "Author is set to PR Author: $PR_AUTHOR"
-          else
-            # Fallback to git log if PR_AUTHOR is null
-            AUTHOR=$(git log -2 --pretty=format:'%an' | tail -n 1)
-            echo "AUTHOR=$AUTHOR" >> $GITHUB_ENV
-            echo "Author is set to previous commit author: $AUTHOR"
-          fi
+        # Check if the current commit is a merge commit
+        if [ "$(git rev-parse --is-merge-commit HEAD)" = "1" ]; then
+          echo "Merge commit detected"
+          # Get the second parent of the merge commit (usually the PR branch head)
+          PR_AUTHOR=$(git log -1 --pretty=format:'%an' HEAD^2)
         else
-          # Fallback to git log if no GITHUB_EVENT_PATH
-          AUTHOR=$(git log -2 --pretty=format:'%an' | tail -n 1)
-          echo "AUTHOR=$AUTHOR" >> $GITHUB_ENV
-          echo "GITHUB_EVENT_PATH not found. Author is set to previous commit author: $AUTHOR"
+          echo "Regular commit detected"
+          # If it's not a merge commit, use the current commit author
+          PR_AUTHOR=$(git log -1 --pretty=format:'%an')
         fi
+
+        echo "Detected author: $PR_AUTHOR"
+
+        if [ -n "$PR_AUTHOR" ] && [ "$PR_AUTHOR" != "null" ]; then
+          echo "AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
+          echo "Author set to: $PR_AUTHOR"
+        else
+          echo "Failed to determine author"
+          exit 1
+        fi
+
         echo "GITHUB_REPOSITORY_NAME=$(echo ${{ github.repository }} | cut -d '/' -f2)" >> $GITHUB_ENV
         echo "Repository Name: ${{ env.GITHUB_REPOSITORY_NAME }}"
 
