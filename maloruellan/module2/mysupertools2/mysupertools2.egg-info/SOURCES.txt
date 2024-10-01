@@ -1,0 +1,11 @@
+README.md
+setup.py
+mysupertools2/__init__.py
+mysupertools2/cli.py
+mysupertools2/math_operations.py
+mysupertools2.egg-info/PKG-INFO
+mysupertools2.egg-info/SOURCES.txt
+mysupertools2.egg-info/dependency_links.txt
+mysupertools2.egg-info/top_level.txt
+mysupertools2/tests/__init__.py
+mysupertools2/tests/test_math_operations.py
