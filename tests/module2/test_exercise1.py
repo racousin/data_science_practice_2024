@@ -1,6 +1,6 @@
 # mysupertools/tests/test_multiplication.py
 
-from mysupertools.tool.multiplication_a_b import multiply
+from mysupertools.tool.operation_a_b import multiply
 
 
 def test_multiply_numbers():
