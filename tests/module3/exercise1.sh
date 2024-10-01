@@ -22,7 +22,7 @@ RESULT_FILE="${RESULTS_DIR}/module${MODULE_NUMBER}_exercise1.json"  # File to st
 mkdir -p $RESULTS_DIR  # Ensure results directory exists
 
 # Setup a Python virtual environment
-python3 -m venv venv
+# python3 -m venv venv
 source venv/bin/activate
 
 # Download y_test.csv from S3 using a provided script
