@@ -23,7 +23,7 @@ mkdir -p $RESULTS_DIR  # Ensure results directory exists
 sudo apt-get install -y xmlstarlet
 
 # Setup a Python virtual environment
-python3 -m venv venv
+# python3 -m venv venv
 source venv/bin/activate
 
 PACKAGE_DIR="$(pwd)/${USERNAME}/module2/mysupertools"
@@ -39,7 +39,9 @@ if ! pip install $PACKAGE_DIR; then
   exit 1
 fi
 
-if ! pytest $TESTS_DIR/test_exercise1.py --junitxml=results.xml; then
+export PYTHONPATH=$PACKAGE_DIR:$PYTHONPATH
+
+if ! python -m pytest $TESTS_DIR/test_exercise1.py --junitxml=results.xml; then
   # Check if results.xml exists and has content
   if [ -f results.xml ] && [ -s results.xml ]; then
     # Extract error messages from the XML file using xmlstarlet
