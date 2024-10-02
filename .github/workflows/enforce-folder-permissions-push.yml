@@ -26,7 +26,7 @@ jobs:
     # Extract and log details from Git history to find the main contributor
     - name: Identify the Main Contributor from the Merge
       env:
-        GITHUB_TOKEN_USER_READ: ${{ secrets.GITHUB_TOKEN_USER_READ }}
+        TOKEN_USER_READ: ${{ secrets.TOKEN_USER_READ }}
       run: |
         # Get the latest commit hash from the current branch (usually main after a merge)
         COMMIT_HASH=$(git rev-parse HEAD)
@@ -39,7 +39,7 @@ jobs:
 
         # Use the GitHub Commit API to get commit details
         COMMIT_API_URL="https://api.github.com/repos/$OWNER/$REPO/commits/$COMMIT_HASH"
-        COMMIT_DETAILS=$(curl -s -H "Authorization: token $GITHUB_TOKEN_USER_READ" $COMMIT_API_URL)
+        COMMIT_DETAILS=$(curl -s -H "Authorization: token $TOKEN_USER_READ" $COMMIT_API_URL)
 
         # Extract the commit author's GitHub username from the API response
         USER_LOGIN=$(echo "$COMMIT_DETAILS" | jq -r '.author.login')
