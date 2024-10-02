@@ -3,11 +3,11 @@
 FETCH_ALL_MODULES=true
 
 # Simulate "Identify Commit Author"
-AUTHOR="thestudentsuper" #$(git log -1 --pretty=format:'%an')
+AUTHOR="RoxaneC" #$(git log -1 --pretty=format:'%an')
 export AUTHOR
 
 # Simulate "Setup AWS CLI"
-export GITHUB_REPOSITORY_NAME="data_science_practice"
+export GITHUB_REPOSITORY_NAME="data_science_practice_2024"
 
 # Set permissions
 chmod +x ./scripts/* ./tests/*/exercise*.sh ./tests/run_tests_and_update_results.sh
