@@ -9,35 +9,34 @@ fi
 # Set the commit hash to test
 COMMIT_HASH=$1
 
-# Navigate to the repository where the commit is located (assuming you're in a Git repo)
-if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
-  echo "Not inside a Git repository. Please run this script in a valid Git repository."
+# GitHub Token for user read should be set as an environment variable
+GITHUB_TOKEN_USER_READ=${GITHUB_TOKEN_USER_READ:-""}
+
+# Check if GITHUB_TOKEN_USER_READ is set
+if [ -z "$GITHUB_TOKEN_USER_READ" ]; then
+  echo "Error: GITHUB_TOKEN_USER_READ environment variable is not set."
   exit 1
 fi
 
-# Check if the provided commit is a merge commit
-if [ "$(git rev-parse --is-merge-commit $COMMIT_HASH)" = "1" ]; then
-  echo "Merge commit detected for $COMMIT_HASH"
+# Get repository info from the current directory
+REPO=$(basename `git rev-parse --show-toplevel`)
+OWNER=$(git remote get-url origin | sed -n 's#.*github.com[:/]\(.*\)/.*#\1#p')
 
-  # Get the second parent of the merge commit (usually the PR branch head)
-  PR_AUTHOR=$(git log -1 --pretty=format:'%an' $COMMIT_HASH^2)
-  PR_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae' $COMMIT_HASH^2)
+# Use the GitHub Commit API to get commit details
+echo "Fetching GitHub username for commit: $COMMIT_HASH"
+COMMIT_API_URL="https://api.github.com/repos/$OWNER/$REPO/commits/$COMMIT_HASH"
+COMMIT_DETAILS=$(curl -s -H "Authorization: token $GITHUB_TOKEN_USER_READ" $COMMIT_API_URL)
+
+# Extract the commit author's GitHub username from the API response
+USER_LOGIN=$(echo "$COMMIT_DETAILS" | jq -r '.author.login')
+
+# Output the detected GitHub username
+echo "Detected GitHub Username: $USER_LOGIN"
+
+# Check if the username was successfully determined
+if [ -n "$USER_LOGIN" ] && [ "$USER_LOGIN" != "null" ]; then
+  echo "GitHub Username successfully determined: $USER_LOGIN"
 else
-  echo "Regular commit detected for $COMMIT_HASH"
-
-  # If not a merge commit, use the commit author
-  PR_AUTHOR=$(git log -1 --pretty=format:'%an' $COMMIT_HASH)
-  PR_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae' $COMMIT_HASH)
-fi
-
-# Output the detected author information
-echo "Detected Author: $PR_AUTHOR"
-echo "Detected Author Email: $PR_AUTHOR_EMAIL"
-
-# Check if the author was successfully determined
-if [ -n "$PR_AUTHOR" ] && [ "$PR_AUTHOR" != "null" ]; then
-  echo "Author successfully determined: $PR_AUTHOR"
-else
-  echo "Failed to determine author for commit $COMMIT_HASH"
+  echo "Failed to determine GitHub username for commit $COMMIT_HASH"
   exit 1
 fi

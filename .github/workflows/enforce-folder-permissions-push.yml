@@ -25,31 +25,31 @@ jobs:
 
     # Extract and log details from Git history to find the main contributor
     - name: Identify the Main Contributor from the Merge
+      env:
+        GITHUB_TOKEN_USER_READ: ${{ secrets.GITHUB_TOKEN_USER_READ }}
       run: |
-        # Check if this is a merge commit (PR merge)
-        if [ "$(git rev-parse --is-merge-commit HEAD)" = "1" ]; then
-          echo "Merge commit detected"
+        # Get the latest commit hash from the current branch (usually main after a merge)
+        COMMIT_HASH=$(git rev-parse HEAD)
 
-          # Get the second parent of the merge commit (usually the PR branch head)
-          PR_AUTHOR=$(git log -1 --pretty=format:'%an' HEAD^2)
-          PR_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae' HEAD^2)
+        # Get repository owner and name from the current Git context
+        REPO=$(basename `git rev-parse --show-toplevel`)
+        OWNER=$(git remote get-url origin | sed -n 's#.*github.com[:/]\(.*\)/.*#\1#p')
+
+        echo "Fetching GitHub username for commit: $COMMIT_HASH"
+
+        # Use the GitHub Commit API to get commit details
+        COMMIT_API_URL="https://api.github.com/repos/$OWNER/$REPO/commits/$COMMIT_HASH"
+        COMMIT_DETAILS=$(curl -s -H "Authorization: token $GITHUB_TOKEN_USER_READ" $COMMIT_API_URL)
+
+        # Extract the commit author's GitHub username from the API response
+        USER_LOGIN=$(echo "$COMMIT_DETAILS" | jq -r '.author.login')
+
+        # Check if the username was successfully determined
+        if [ -n "$USER_LOGIN" ] && [ "$USER_LOGIN" != "null" ]; then
+          echo "GitHub Username successfully determined: $USER_LOGIN"
+          echo "AUTHOR=$USER_LOGIN" >> $GITHUB_ENV
         else
-          echo "Regular commit detected"
-
-          # If not a merge commit, use the current commit author
-          PR_AUTHOR=$(git log -1 --pretty=format:'%an')
-          PR_AUTHOR_EMAIL=$(git log -1 --pretty=format:'%ae')
-        fi
-
-        echo "Detected Author: $PR_AUTHOR"
-        echo "Detected Author Email: $PR_AUTHOR_EMAIL"
-
-        # Set the author as environment variable
-        if [ -n "$PR_AUTHOR" ] && [ "$PR_AUTHOR" != "null" ]; then
-          echo "AUTHOR=$PR_AUTHOR" >> $GITHUB_ENV
-          echo "AUTHOR_EMAIL=$PR_AUTHOR_EMAIL" >> $GITHUB_ENV
-        else
-          echo "Failed to determine author"
+          echo "Failed to determine GitHub username for commit $COMMIT_HASH"
           exit 1
         fi
 
