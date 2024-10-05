@@ -9,9 +9,6 @@ MODULE_NUMBER="1"  # Since this script is specifically for module1, we can hardc
 RESULTS_DIR="./results"  # Directory to store results
 RESULT_FILE="${RESULTS_DIR}/module${MODULE_NUMBER}_exercise1.json"  # File to store this exercise's results
 
-
-
-
 mkdir -p $RESULTS_DIR  # Ensure results directory exists
 
 echo "Starting tests for module1 for user $USERNAME..."
@@ -26,9 +23,11 @@ if [ ! -f "$FILE_PATH" ]; then
 fi
 
 # Check if the file contains the correct content
-# Format should be 'username,surname,name'
+# We expect the format to be: 'username,something,something' (must contain 2 commas, but we're flexible on surname and name content)
 FILE_CONTENT=$(cat "$FILE_PATH")
-if [[ ! "$FILE_CONTENT" =~ ^${USERNAME},[a-zA-Z]+,[a-zA-Z]+$ ]]; then
+IFS=',' read -r -a content_array <<< "$FILE_CONTENT"
+
+if [[ "${content_array[0]}" != "$USERNAME" ]] || [[ $(grep -o ',' <<< "$FILE_CONTENT" | wc -l) -ne 2 ]]; then
   echo "{\"is_passed_test\": false, \"score\": \"0\", \"logs\": \"Error: File content format is incorrect in $FILE_PATH. Received: '$FILE_CONTENT', Expected format: '${USERNAME},surname,name'\", \"updated_time_utc\": \"$CURRENT_UTC_TIME\"}" > $RESULT_FILE
   exit 1
 fi
