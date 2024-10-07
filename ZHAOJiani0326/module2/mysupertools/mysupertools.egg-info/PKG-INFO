@@ -1,0 +1,5 @@
+Metadata-Version: 2.1
+Name: mysupertools
+Version: 0.1
+Summary: A package that multiplies two values or returns an error if not possible
+Author: ZHAOJiani
