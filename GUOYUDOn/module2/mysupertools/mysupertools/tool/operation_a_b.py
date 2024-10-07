@@ -1,6 +1,5 @@
 def multiply(a, b):
-    try:
-        result = a * b
-        return result
-    except TypeError:
+    if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+        return a * b
+    else:
         return "error"
