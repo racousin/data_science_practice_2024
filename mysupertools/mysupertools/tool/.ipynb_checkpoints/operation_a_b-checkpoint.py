@@ -6,5 +6,5 @@ def multiply(a,b):
         #raise ValueError("Erreur dans les arguments.")
         return a*b
     else:
-        print("erreur")
+        print("error")
         
