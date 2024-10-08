@@ -1,8 +1,0 @@
-setup.py
-mysupertools/__init__.py
-mysupertools.egg-info/PKG-INFO
-mysupertools.egg-info/SOURCES.txt
-mysupertools.egg-info/dependency_links.txt
-mysupertools.egg-info/top_level.txt
-mysupertools/tool/__init__.py
-mysupertools/tool/operation_a_b.py
