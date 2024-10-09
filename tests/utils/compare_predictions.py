@@ -6,7 +6,7 @@ metrics_map = {"mean_absolute_error": mean_absolute_error}
 
 
 def compare_predictions(
-    true_values_path, predictions_path, error_threshold, metric, target_col
+    true_values_path, predictions_path, error_threshold, metric, target_col, id_col='id'
 ):
     try:
         y_true = pd.read_csv(true_values_path)
@@ -26,16 +26,16 @@ def compare_predictions(
         print(f"Error: The file {predictions_path} is empty or not well formatted.")
         sys.exit(1)
 
-    # Verify that both files contain the required 'id' column
-    if "id" not in y_true.columns or "id" not in y_pred.columns:
-        print("Error: One or both files are missing the 'id' column.")
+    # Verify that both files contain the required 'id_col' column
+    if id_col not in y_true.columns or id_col not in y_pred.columns:
+        print(f"Error: Missing the '{id_col}' column.")
         sys.exit(1)
 
     # Merge datasets to ensure they are comparable
     try:
-        merged_data = pd.merge(y_true, y_pred, on="id", suffixes=("_true", "_pred"))
+        merged_data = pd.merge(y_true, y_pred, on=id_col, suffixes=("_true", "_pred"))
     except KeyError:
-        print("Error: ID mismatch between the true values and predictions.")
+        print(f"Error: {id_col} mismatch between the true values and predictions.")
         sys.exit(1)
     # Check if the target column exists and is numeric
     if f"{target_col}_pred" not in merged_data.columns:
@@ -73,7 +73,10 @@ if __name__ == "__main__":
     error_threshold = float(sys.argv[3])
     metric = sys.argv[4]
     target_col = sys.argv[5]
+    
+    # Default the id_col to 'id' if not provided
+    id_col = sys.argv[6] if len(sys.argv) > 6 else 'id'
 
     compare_predictions(
-        true_values_path, predictions_path, error_threshold, metric, target_col
+        true_values_path, predictions_path, error_threshold, metric, target_col, id_col
     )
