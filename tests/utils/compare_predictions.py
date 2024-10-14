@@ -1,8 +1,13 @@
 import sys
 import pandas as pd
-from sklearn.metrics import mean_absolute_error
+from sklearn.metrics import mean_absolute_error, mean_squared_error
 
-metrics_map = {"mean_absolute_error": mean_absolute_error}
+# Dictionary to map metric names to their corresponding functions
+metrics_map = {
+    "mean_absolute_error": mean_absolute_error,
+    "mean_squared_error": mean_squared_error
+}
+
 
 
 def compare_predictions(
