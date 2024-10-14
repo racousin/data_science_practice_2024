@@ -1,7 +1,7 @@
 # operation_a_b.py
 
 def multiply(a, b):
-    try:
+    if isinstance(a, (int, float)) and isinstance(b, (int, float)):
         return a * b
-    except TypeError:
+    else:
         return "error"
