@@ -45,7 +45,11 @@ if ! python -m pytest $TESTS_DIR/test_exercise1.py --junitxml=results.xml; then
   # Check if results.xml exists and has content
   if [ -f results.xml ] && [ -s results.xml ]; then
     # Extract error messages from the XML file using xmlstarlet
-    ERROR_DETAILS=$(xmlstarlet sel -t -m "//error" -v . -n results.xml | sed ':a;N;$!ba;s/\\/\\\\/g; s/"/\\"/g; s/\n/\\n/g')
+    ERROR_DETAILS=$(xmlstarlet sel -t -m "//error | //failure" -v . -n results.xml | \
+            sed ':a;N;$!ba;s/\\/\\\\/g; s/"/\\"/g; s/\n/\\n/g; s/&gt;/>/g; s/&lt;/</g; s/&amp;/&/g' | \
+            tr -d '\r' | \
+            awk '{gsub(/[[:cntrl:]]/, ""); print}')
+
   else
     ERROR_DETAILS="No detailed error information was found, or the results file was not created."
   fi
