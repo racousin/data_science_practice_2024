@@ -12,12 +12,12 @@ CURRENT_UTC_TIME=$2
 AWS_ACCESS_KEY_ID=$3
 AWS_SECRET_ACCESS_KEY=$4
 AWS_DEFAULT_REGION=$5
-MODULE_NUMBER="3"
+MODULE_NUMBER="5"
+TARGET_PATH="module${MODULE_NUMBER}/module${MODULE_NUMBER}_exercise_test_target.csv"
 PREDICTIONS_PATH="${USERNAME}/module${MODULE_NUMBER}/submission.csv"
-RESULTS_PATH="module3_exercise_test_target.csv"
+RESULTS_PATH="module${MODULE_NUMBER}_exercise_test_target.csv"
 RESULTS_DIR="./results"  # Directory to store results
 RESULT_FILE="${RESULTS_DIR}/module${MODULE_NUMBER}_exercise1.json"  # File to store this exercise's results
-
 
 mkdir -p $RESULTS_DIR  # Ensure results directory exists
 
@@ -26,14 +26,15 @@ mkdir -p $RESULTS_DIR  # Ensure results directory exists
 source venv/bin/activate
 
 # Download y_test.csv from S3 using a provided script
-python tests/utils/download_from_s3.py $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_DEFAULT_REGION module3/module3_exercise_test_target.csv $RESULTS_PATH
+python tests/utils/download_from_s3.py $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY $AWS_DEFAULT_REGION $TARGET_PATH $RESULTS_PATH
 
 # Run comparison using a provided Python script
 set +e
-ERROR_THRESHOLD=34000
-METRIC="mean_absolute_error"
-TARGET_COL="SalePrice"
-COMPARE_OUTPUT=$(python tests/utils/compare_predictions.py $RESULTS_PATH $PREDICTIONS_PATH $ERROR_THRESHOLD $METRIC $TARGET_COL 2>&1)
+ERROR_THRESHOLD=1000
+METRIC="mean_squared_error"
+TARGET_COL="electricity_demand"
+ID_COL="date"
+COMPARE_OUTPUT=$(python tests/utils/compare_predictions.py $RESULTS_PATH $PREDICTIONS_PATH $ERROR_THRESHOLD $METRIC $TARGET_COL $ID_COL 2>&1)
 COMPARE_EXIT_CODE=$?
 SCORE=$(echo "$COMPARE_OUTPUT" | grep -oP '(?<=score: )[\d.]+') 
 set -e
