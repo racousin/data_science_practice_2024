@@ -8,6 +8,12 @@ racousin/
 venv/
 website/public/modules/venv
 
+*test.csv
+*train.csv
+
+**/*test.csv
+**/*train.csv
+
 # Byte-compiled / optimized / DLL files
 poetry.lock
 pyproject.toml
@@ -20,6 +26,7 @@ __pycache__/
 **/__pycache__/
 *.py[cod]
 *$py.class
+
 
 # C extensions
 *.so
@@ -44,6 +51,7 @@ var/
 wheels/
 share/python-wheels/
 *.egg-info/
+**/*.egg-info/
 .installed.cfg
 *.egg
 MANIFEST

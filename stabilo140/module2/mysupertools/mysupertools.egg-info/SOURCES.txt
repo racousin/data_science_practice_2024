@@ -1,0 +1,10 @@
+setup.py
+mysupertools/__init__.py
+mysupertools.egg-info/PKG-INFO
+mysupertools.egg-info/SOURCES.txt
+mysupertools.egg-info/dependency_links.txt
+mysupertools.egg-info/top_level.txt
+mysupertools/tools/__init__.py
+mysupertools/tools/operation_a_b.py
+mysupertools/tools/tests/__init__.py
+mysupertools/tools/tests/test_operation_a_b.py
