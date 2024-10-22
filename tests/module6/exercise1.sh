@@ -18,6 +18,7 @@ PREDICTIONS_PATH="${USERNAME}/module${MODULE_NUMBER}/submission.csv"
 RESULTS_PATH="module${MODULE_NUMBER}_exercise_test_target.csv"
 RESULTS_DIR="./results"  # Directory to store results
 RESULT_FILE="${RESULTS_DIR}/module${MODULE_NUMBER}_exercise1.json"  # File to store this exercise's results
+IS_LOWER=false
 
 mkdir -p $RESULTS_DIR  # Ensure results directory exists
 
@@ -30,11 +31,11 @@ python tests/utils/download_from_s3.py $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY
 
 # Run comparison using a provided Python script
 set +e
-ERROR_THRESHOLD=1000
+ERROR_THRESHOLD=0.53
 METRIC="weighted_accuracy"
 TARGET_COL="end_of_day_return"
 ID_COL="index"
-COMPARE_OUTPUT=$(python tests/utils/compare_predictions.py $RESULTS_PATH $PREDICTIONS_PATH $ERROR_THRESHOLD $METRIC $TARGET_COL $ID_COL 2>&1)
+COMPARE_OUTPUT=$(python tests/utils/compare_predictions.py $RESULTS_PATH $PREDICTIONS_PATH $ERROR_THRESHOLD $METRIC $TARGET_COL $ID_COL $IS_LOWER 2>&1)
 COMPARE_EXIT_CODE=$?
 SCORE=$(echo "$COMPARE_OUTPUT" | grep -oP '(?<=score: )[\d.]+') 
 set -e

@@ -29,7 +29,7 @@ metrics_map = {
 
 
 def compare_predictions(
-    true_values_path, predictions_path, error_threshold, metric, target_col, id_col='id'
+    true_values_path, predictions_path, error_threshold, metric, target_col, id_col='id', is_lower=True
 ):
     try:
         y_true = pd.read_csv(true_values_path)
@@ -83,12 +83,18 @@ def compare_predictions(
         sys.exit(1)
 
     # Check if the score exceeds the threshold
-    if score > error_threshold:
-        print(f"Error: {metric} score: {score} exceeds threshold {error_threshold}.")
-        sys.exit(1)
+    if is_lower:
+        if score > error_threshold:
+            print(f"Error: {metric} score: {score} exceeds threshold {error_threshold}.")
+            sys.exit(1)
+        else:
+            print(f"Success: {metric} score: {score} is within the acceptable threshold.")
     else:
-        print(f"Success: {metric} score: {score} is within the acceptable threshold.")
-
+        if score < error_threshold:
+            print(f"Error: {metric} score: {score} bellow threshold {error_threshold}.")
+            sys.exit(1)
+        else:
+            print(f"Success: {metric} score: {score} is within the acceptable threshold.")
 
 if __name__ == "__main__":
     true_values_path = sys.argv[1]
@@ -99,7 +105,10 @@ if __name__ == "__main__":
     
     # Default the id_col to 'id' if not provided
     id_col = sys.argv[6] if len(sys.argv) > 6 else 'id'
+    
+    is_lower_str = sys.argv[7] if len(sys.argv) > 7 else True
+    is_lower = is_lower_str.lower() == 'true'
 
     compare_predictions(
-        true_values_path, predictions_path, error_threshold, metric, target_col, id_col
+        true_values_path, predictions_path, error_threshold, metric, target_col, id_col, is_lower
     )
