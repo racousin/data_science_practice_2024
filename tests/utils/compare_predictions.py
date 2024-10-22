@@ -2,10 +2,28 @@ import sys
 import pandas as pd
 from sklearn.metrics import mean_absolute_error, mean_squared_error
 
+import numpy as np
+
+def weighted_accuracy(y_true, y_pred):
+    weights = np.abs(y_true)
+    
+    # Compute the sign of true and predicted values
+    sign_true = np.sign(y_true)
+    sign_pred = np.sign(y_pred)
+    
+    # Correct predictions where the sign of the true and predicted values match
+    correct_predictions = sign_true == sign_pred
+    
+    # Compute the weighted accuracy
+    weighted_acc = np.sum(weights * correct_predictions) / np.sum(weights)
+    
+    return weighted_acc
+
 # Dictionary to map metric names to their corresponding functions
 metrics_map = {
     "mean_absolute_error": mean_absolute_error,
-    "mean_squared_error": mean_squared_error
+    "mean_squared_error": mean_squared_error,
+    "weighted_accuracy": weighted_accuracy
 }
 
 
