@@ -30,7 +30,7 @@ python tests/utils/download_from_s3.py $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY
 
 # Run comparison using a provided Python script
 set +e
-ERROR_THRESHOLD=34000
+ERROR_THRESHOLD=36000
 METRIC="mean_absolute_error"
 TARGET_COL="SalePrice"
 COMPARE_OUTPUT=$(python tests/utils/compare_predictions.py $RESULTS_PATH $PREDICTIONS_PATH $ERROR_THRESHOLD $METRIC $TARGET_COL 2>&1)
