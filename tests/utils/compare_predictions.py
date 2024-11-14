@@ -106,7 +106,7 @@ if __name__ == "__main__":
     # Default the id_col to 'id' if not provided
     id_col = sys.argv[6] if len(sys.argv) > 6 else 'id'
     
-    is_lower_str = sys.argv[7] if len(sys.argv) > 7 else True
+    is_lower_str = sys.argv[7] if len(sys.argv) > 7 else 'true'
     is_lower = is_lower_str.lower() == 'true'
 
     compare_predictions(
