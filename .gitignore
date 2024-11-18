@@ -51,7 +51,10 @@ var/
 wheels/
 share/python-wheels/
 *.egg-info/
+<<<<<<< HEAD
+=======
 **/*.egg-info/
+>>>>>>> 9558df0396234db10ce683e9108d4d12e137a83a
 .installed.cfg
 *.egg
 MANIFEST
