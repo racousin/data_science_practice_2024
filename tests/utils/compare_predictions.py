@@ -1,6 +1,6 @@
 import sys
 import pandas as pd
-from sklearn.metrics import mean_absolute_error, mean_squared_error
+from sklearn.metrics import mean_absolute_error, mean_squared_error, accuracy_score
 
 import numpy as np
 
@@ -23,7 +23,8 @@ def weighted_accuracy(y_true, y_pred):
 metrics_map = {
     "mean_absolute_error": mean_absolute_error,
     "mean_squared_error": mean_squared_error,
-    "weighted_accuracy": weighted_accuracy
+    "weighted_accuracy": weighted_accuracy,
+    "accuracy": accuracy_score
 }
 
 
