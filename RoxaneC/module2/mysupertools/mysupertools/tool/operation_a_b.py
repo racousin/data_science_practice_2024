@@ -1,6 +1,5 @@
 def multiply(a, b):
-	res = a*b
-	if type(res)==str:
-	    return "error"
+	if isinstance(a, (int, float)) and isinstance(b, (int, float)):
+	    return a*b
 	else:
-	    return res
+	    return "error"

@@ -16,6 +16,32 @@ def download_from_s3(
     s3.download_file(bucket, key, download_path)
 
 
+def safe_load_json(file_path):
+    """
+    Safely load JSON file with error handling and debugging information.
+    """
+    try:
+        with open(file_path, 'r') as file:
+            content = file.read()
+            try:
+                return json.loads(content)
+            except json.JSONDecodeError as e:
+                print(f"\nError decoding JSON in file: {file_path}")
+                print(f"Error details: {str(e)}")
+                print("\nFile content:")
+                print("-" * 50)
+                print(content)
+                print("-" * 50)
+                print(f"\nFile size: {os.path.getsize(file_path)} bytes")
+                print(f"Is file empty? {os.path.getsize(file_path) == 0}")
+                if content.strip() == '':
+                    print("File is empty or contains only whitespace")
+                raise
+    except FileNotFoundError:
+        print(f"\nFile not found: {file_path}")
+        raise
+
+
 def aggregate_results(
     results_dir,
     final_json_path,
@@ -36,9 +62,8 @@ def aggregate_results(
     )
     print(f"download done to {final_json_path}")
 
-    # Load the existing results
-    with open(final_json_path, "r") as file:
-        all_results = json.load(file)
+    # Load the existing results with error handling
+    all_results = safe_load_json(final_json_path)
 
     # Merge local results into the existing JSON
     for filename in os.listdir(results_dir):
@@ -47,11 +72,11 @@ def aggregate_results(
         if "exercise" in filename:
             module, exercise = filename.replace(".json", "").split("_")
             print(f"extract module: {module}, exercise: {exercise}")
-            with open(os.path.join(results_dir, filename), "r") as file:
-                result = json.load(file)
-                if module in all_results and exercise in all_results[module]:
-                    all_results[module][exercise] = result
-                    print(f"content: {result}")
+            file_path = os.path.join(results_dir, filename)
+            result = safe_load_json(file_path)
+            if module in all_results and exercise in all_results[module]:
+                all_results[module][exercise] = result
+                print(f"content: {result}")
 
     # Write the merged results back to the JSON file
     with open(final_json_path, "w") as file:
