@@ -1,7 +1,16 @@
+**.pth
 tmp
 tests/students.json
 students.json
 website/public/modules/sandbox/
+*.csv
+**/*.pt
+**/data_save/**
+**/data/**
+
+**/module7/**/*_features.csv
+**/module7/**/*.zip
+**module8_course_train.zip
 
 racousin/
 
