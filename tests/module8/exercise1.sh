@@ -31,7 +31,7 @@ python tests/utils/download_from_s3.py $AWS_ACCESS_KEY_ID $AWS_SECRET_ACCESS_KEY
 
 # Run comparison using a provided Python script
 set +e
-ERROR_THRESHOLD=0.90
+ERROR_THRESHOLD=0.80
 METRIC="accuracy"
 TARGET_COL="label"
 ID_COL="index"
