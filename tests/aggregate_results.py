@@ -51,19 +51,26 @@ def aggregate_results(
     bucket,
     key,
 ):
-    # Download the existing results JSON from S3
-    download_from_s3(
-        bucket,
-        key,
-        aws_access_key_id,
-        aws_secret_access_key,
-        region_name,
-        final_json_path,
-    )
-    print(f"download done to {final_json_path}")
-
-    # Load the existing results with error handling
-    all_results = safe_load_json(final_json_path)
+    # Try to download the existing results JSON from S3, if it doesn't exist create from template
+    try:
+        download_from_s3(
+            bucket,
+            key,
+            aws_access_key_id,
+            aws_secret_access_key,
+            region_name,
+            final_json_path,
+        )
+        print(f"download done to {final_json_path}")
+        # Load the existing results with error handling
+        all_results = safe_load_json(final_json_path)
+    except Exception as e:
+        print(f"Failed to download existing results from S3 (likely first time): {str(e)}")
+        print("Creating initial student results from template...")
+        # Load the template from scripts/student.json
+        template_path = "./scripts/student.json"
+        all_results = safe_load_json(template_path)
+        print(f"Loaded template: {all_results}")
 
     # Merge local results into the existing JSON
     for filename in os.listdir(results_dir):
@@ -88,34 +95,44 @@ def aggregate_results(
 def upload_to_s3(
     file_path, bucket, key, aws_access_key_id, aws_secret_access_key, region_name
 ):
-    session = boto3.Session(
-        aws_access_key_id=aws_access_key_id,
-        aws_secret_access_key=aws_secret_access_key,
-        region_name=region_name,
-    )
-    s3 = session.client("s3")
-    s3.upload_file(file_path, bucket, key)
-    print(f"write back json remotly from path {file_path} to {key}")
+    try:
+        print(f"Attempting to upload {file_path} to s3://{bucket}/{key}")
+        session = boto3.Session(
+            aws_access_key_id=aws_access_key_id,
+            aws_secret_access_key=aws_secret_access_key,
+            region_name=region_name,
+        )
+        s3 = session.client("s3")
+        s3.upload_file(file_path, bucket, key)
+        print(f"Successfully uploaded json to s3://{bucket}/{key}")
+    except Exception as e:
+        print(f"ERROR uploading to S3: {str(e)}")
+        raise
 
 
 if __name__ == "__main__":
-    results_dir = sys.argv[1]
-    final_json_path = sys.argv[2]
-    bucket = sys.argv[3]
-    key = sys.argv[4]
-    aws_access_key_id = sys.argv[5]
-    aws_secret_access_key = sys.argv[6]
-    region_name = sys.argv[7]
+    try:
+        results_dir = sys.argv[1]
+        final_json_path = sys.argv[2]
+        bucket = sys.argv[3]
+        key = sys.argv[4]
+        aws_access_key_id = sys.argv[5]
+        aws_secret_access_key = sys.argv[6]
+        region_name = sys.argv[7]
 
-    final_path = aggregate_results(
-        results_dir,
-        final_json_path,
-        aws_access_key_id,
-        aws_secret_access_key,
-        region_name,
-        bucket,
-        key,
-    )
-    upload_to_s3(
-        final_path, bucket, key, aws_access_key_id, aws_secret_access_key, region_name
-    )
+        final_path = aggregate_results(
+            results_dir,
+            final_json_path,
+            aws_access_key_id,
+            aws_secret_access_key,
+            region_name,
+            bucket,
+            key,
+        )
+        upload_to_s3(
+            final_path, bucket, key, aws_access_key_id, aws_secret_access_key, region_name
+        )
+        print("SUCCESS: Results aggregated and uploaded to S3")
+    except Exception as e:
+        print(f"ERROR: {str(e)}")
+        sys.exit(1)
